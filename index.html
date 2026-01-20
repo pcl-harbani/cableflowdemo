@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pakistan Cables Limited</title>
+
+  <style>
+    :root{
+      --brand:#006600;
+      --brandDark:#01411C;
+      --bg:#fafafa;
+      --card:#ffffff;
+      --muted:#71717a;
+      --text:#18181b;
+      --border:#e4e4e7;
+      --shadow: 0 1px 2px rgba(0,0,0,.06);
+      --r:18px;
+      --r2:24px;
+      --r3:28px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    .accent{height:4px;background:linear-gradient(90deg,var(--brandDark),var(--brand))}
+    .app{min-height:calc(100vh - 4px);display:flex}
+
+    /* SIDEBAR */
+    .sidebar{
+      width:288px;
+      background:#fff;
+      border-right:1px solid var(--border);
+      display:flex;
+      flex-direction:column;
+    }
+
+    .brand{
+      padding:20px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .badge{
+      width:40px;height:40px;
+      border-radius:18px;
+      background:var(--brand);
+    }
+
+    nav{padding:0 12px}
+
+    .nav-item{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:10px 12px;
+      border-radius:18px;
+      cursor:pointer;
+      font-weight:700;
+      margin:6px 0;
+      color:#3f3f46;
+    }
+    .nav-item.active{background:#e6f4ea;color:var(--brand)}
+
+    .sub-nav{
+      margin-left:44px;
+      margin-top:4px;
+    }
+    .sub-item{
+      padding:8px 10px;
+      font-size:13px;
+      cursor:pointer;
+      border-radius:14px;
+      color:#52525b;
+    }
+    .sub-item.active{
+      background:#f0fdf4;
+      color:var(--brand);
+      font-weight:800;
+    }
+
+    .main{flex:1;display:flex;flex-direction:column}
+
+    header{
+      background:#fff;
+      border-bottom:1px solid var(--border);
+    }
+    .head{
+      padding:16px 24px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    main{padding:24px;flex:1}
+
+    .card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:28px;
+      padding:20px;
+      box-shadow:var(--shadow);
+    }
+
+    footer{
+      border-top:1px solid var(--border);
+      padding:14px 24px;
+      font-size:12px;
+      color:var(--muted);
+      background:#fff;
+      display:flex;
+      justify-content:space-between;
+    }
+
+    .hidden{display:none}
+	
+	.btn-primary{
+  background:var(--brand);
+  color:#fff;
+  border:none;
+  border-radius:18px;
+  padding:10px 16px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:var(--shadow);
+}
+.btn-primary:hover{
+  opacity:0.9;
+}
+
+.badge img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+  </style>
+</head>
+
+<body>
+<div class="accent"></div>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="badge">
+		<img src="assets/pakistan_cables_limited_logo.jpg" alt="Pakistan Cables Logo">
+	  </div>
+      <div>
+        <strong>Pakistan Cables Limited</strong><br>
+        <!--<small style="color:#71717a">Admin Console</small>-->
+      </div>
+    </div>
+
+    <nav>
+      <!-- Forecast -->
+      <div class="nav-item active" id="forecastNav" onclick="openForecast()">📈 Forecast Utility</div>
+      <div class="sub-nav">
+        <div class="sub-item active" onclick="showPage('dashboard', this)">Forecast Analytics</div>
+        <div class="sub-item" onclick="showPage('uploader', this)">Uploader</div>
+		<div class="sub-item" onclick="showPage('report', this)">Reports</div>
+      </div>
+
+      <!-- Planning -->
+      <div class="nav-item" id="planningNav" onclick="openPlanning()">🗓️ Planning</div>
+
+      <!-- Job Cart -->
+      <div class="nav-item" id="jobCardNav" onclick="openJobCard()">🧵 Digital Job Card</div>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <header>
+      <div class="head">
+        <h1 id="pageTitle">Forecast Dashboard</h1>
+        <!--<div>Admin</div>-->
+      </div>
+    </header>
+
+    <main>
+      <!-- DASHBOARD -->
+      <div id="dashboard" class="card">
+		  <h2>Forecast Analytics</h2>
+		  <p>Production & Material Forecast Overview (Demo)</p>
+
+		  <div style="
+			display:grid;
+			grid-template-columns:1fr 1fr;
+			gap:20px;
+			margin-top:20px;
+		  ">
+			<div style="height:300px;"><canvas id="chartCuAl"></canvas></div>
+			<div style="height:300px;"><canvas id="chartEq"></canvas></div>
+			<div style="height:300px;"><canvas id="chartQty"></canvas></div>
+			<div style="height:300px;"><canvas id="chartCapacity"></canvas></div>
+		  </div>
+	 </div>
+
+      <!-- UPLOADER -->
+     <div id="uploader" class="card hidden">
+	  <h2>Forecast Upload</h2>
+
+	  <button class="btn-primary" onclick="downloadSample()">Download Sample Template</button>
+
+	  <br><br>
+
+	  <input type="file" id="fileInput" accept=".xlsx" />
+
+	  <br><br>
+
+	  <button class="btn-primary" onclick="processFile()">Upload & Preview</button>
+
+	  <div id="preview" style="margin-top:20px;"></div>
+	</div>
+	  
+	  <!--Reports-->
+	  <div id="report" class="card hidden">
+
+		  <!-- HEADER -->
+		  <div
+			onclick="toggleSummary()"
+			style="
+			  display:flex;
+			  justify-content:space-between;
+			  align-items:center;
+			  cursor:pointer;
+			  padding-bottom:10px;
+			  border-bottom:1px solid #e5e7eb;
+			"
+		  >
+			<h2 style="margin:0;">Forecast Summary</h2>
+
+			<button
+			  class="btn-primary"
+			  onclick="event.stopPropagation(); downloadSummary();"
+			>
+			  Download
+			</button>
+		  </div>
+
+		  <!-- COLLAPSIBLE CONTENT -->
+		  <div id="summaryContent" class="hidden" style="margin-top:16px; overflow-x:auto;">
+			<table id="summaryTable" border="1" cellpadding="6" style="border-collapse:collapse; width:100%; font-size:12px;">
+			  <thead style="background:#f4f4f5; font-weight:700;">
+				<tr>
+				  <th>Value Stream</th>
+				  <th>UOM</th>
+				  <th>Feb-26 Qty</th>
+				  <th>Feb-26 Cu (MT)</th>
+				  <th>Feb-26 Al (MT)</th>
+				  <th>Mar-26 Qty</th>
+				  <th>Mar-26 Cu (MT)</th>
+				  <th>Mar-26 Al (MT)</th>
+				  <th>Apr-26 Qty</th>
+				  <th>Apr-26 Cu (MT)</th>
+				  <th>Apr-26 Al (MT)</th>
+				  <th>May-26 Qty</th>
+				  <th>May-26 Cu (MT)</th>
+				  <th>May-26 Al (MT)</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				<tr>
+				  <td>AAC + ACSR + HDBC + PACC Conductors</td>
+				  <td>Kms</td>
+				  <td>366.3</td><td>2.5</td><td>225.3</td>
+				  <td>291.4</td><td>4.8</td><td>208.0</td>
+				  <td>430.0</td><td>8.3</td><td>128.0</td>
+				  <td>41.0</td><td>-</td><td>55.1</td>
+				</tr>
+
+				<tr>
+				  <td>Co-Axial Cables</td>
+				  <td>Kms</td>
+				  <td>77.0</td><td>0.4</td><td>-</td>
+				  <td>56.5</td><td>0.3</td><td>-</td>
+				  <td>52.0</td><td>0.2</td><td>-</td>
+				  <td>67.8</td><td>0.3</td><td>-</td>
+				</tr>
+
+				<tr>
+				  <td>Telephone Cables</td>
+				  <td>Kms</td>
+				  <td>80.6</td><td>2.0</td><td>-</td>
+				  <td>61.7</td><td>1.6</td><td>-</td>
+				  <td>56.7</td><td>1.4</td><td>-</td>
+				  <td>76.1</td><td>1.9</td><td>-</td>
+				</tr>
+
+				<!-- You can continue adding rows the same way -->
+			  </tbody>
+			</table>
+		  </div>
+		</div>
+
+	<div id="planning" class="card hidden">
+	  <h2>Production Planning</h2>
+	  <p>Monthly production plan vs available capacity (Demo)</p>
+	</div>
+	
+	<!-- DIGITAL JOB CARD -->
+	<div id="jobcard" class="card hidden">
+
+	  <h2>Digital Job Card</h2>
+	  <p>Create and track production job cards (Demo)</p>
+
+	</div>
+
+	
+    </main>
+
+    <footer>
+      <span>© <span id="year"></span> Pakistan Cables</span>
+      <span>Pakistan Green</span>
+    </footer>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+function showPage(page, el){
+
+  // Hide ALL main sections
+  ['dashboard','uploader','report','planning','jobcard'].forEach(id =>
+    document.getElementById(id).classList.add('hidden')
+  );
+
+  // Show selected forecast page
+  document.getElementById(page).classList.remove('hidden');
+
+  // Sidebar state
+  document.querySelectorAll('.nav-item').forEach(i =>
+    i.classList.remove('active')
+  );
+  document.getElementById('forecastNav').classList.add('active');
+
+  // Sub-nav state
+  document.querySelectorAll('.sub-item').forEach(i =>
+    i.classList.remove('active')
+  );
+  el.classList.add('active');
+
+  // Title
+  const titles = {
+    dashboard: 'Forecast Dashboard',
+    uploader: 'Forecast Uploader',
+    report: 'Forecast Reports'
+  };
+  document.getElementById('pageTitle').textContent = titles[page];
+}
+</script>
+
+<script>
+const FORECAST_HEADERS = [
+  'Reference',
+  'Product ID',
+  'Value Stream',
+  'Product Description',
+  'Product Category',
+  'Product Sub Category',
+  'UOM',
+
+  'N Month Qty', 'N Month Cu (MT)', 'N Month Al (MT)', 'N Month Eq (MT)',
+  'N+1 Qty', 'N+1 Cu (MT)', 'N+1 Al (MT)', 'N+1 Eq (MT)',
+  'N+2 Qty', 'N+2 Cu (MT)', 'N+2 Al (MT)', 'N+2 Eq (MT)',
+  'N+3 Qty', 'N+3 Cu (MT)', 'N+3 Al (MT)', 'N+3 Eq (MT)'
+];
+</script>
+
+<script>
+function downloadSample(){
+  const wb = XLSX.utils.book_new();
+
+  // Create empty sheet with headers only
+  const ws = XLSX.utils.aoa_to_sheet([FORECAST_HEADERS]);
+
+  XLSX.utils.book_append_sheet(wb, ws, 'Forecast');
+
+  XLSX.writeFile(wb, 'Forecast_Upload_Template.xlsx');
+}
+</script>
+
+
+<script>
+function processFile(){
+  const fileInput = document.getElementById('fileInput');
+  if(!fileInput.files.length){
+    alert('Please upload an Excel file');
+    return;
+  }
+
+  const file = fileInput.files[0];
+  const reader = new FileReader();
+
+  reader.onload = function(e){
+    const data = new Uint8Array(e.target.result);
+    const workbook = XLSX.read(data, { type: 'array' });
+
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const json = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+
+    if(!json.length){
+      alert('Excel file is empty');
+      return;
+    }
+
+    const fileColumns = Object.keys(json[0]);
+
+	const missing = FORECAST_HEADERS.filter(h => !fileColumns.includes(h));
+	if(missing.length){
+	  alert('Missing columns:\n' + missing.join(', '));
+	  return;
+	}
+
+    // SIMPLE PREVIEW (first 5 rows)
+    let table = `<h3>Preview (First 5 Rows)</h3><table border="1" cellpadding="6"><tr>`;
+    fileColumns.forEach(c => table += `<th>${c}</th>`);
+    table += `</tr>`;
+
+    json.slice(0,5).forEach(row => {
+      table += `<tr>`;
+      fileColumns.forEach(c => table += `<td>${row[c]}</td>`);
+      table += `</tr>`;
+    });
+
+    table += `</table>`;
+    document.getElementById('preview').innerHTML = table;
+  };
+
+  reader.readAsArrayBuffer(file);
+}
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  const months = ['Feb-26', 'Mar-26', 'Apr-26', 'May-26'];
+
+  /* ---------- CHART 1: Copper vs Aluminium ---------- */
+  new Chart(document.getElementById('chartCuAl'), {
+    type: 'line',
+    data: {
+      labels: months,
+      datasets: [
+        {
+          label: 'Copper (MT)',
+          data: [598, 759, 365, 424],
+          borderColor: '#b45309',
+          backgroundColor: 'rgba(180,83,9,0.15)',
+          tension: 0.3
+        },
+        {
+          label: 'Aluminium (MT)',
+          data: [453, 374, 388, 172],
+          borderColor: '#2563eb',
+          backgroundColor: 'rgba(37,99,235,0.15)',
+          tension: 0.3
+        }
+      ]
+    },
+    options: {
+      plugins: { title:{ display:true, text:'Copper vs Aluminium (MT)' } },
+      responsive:true,
+      maintainAspectRatio:false
+    }
+  });
+
+  /* ---------- CHART 2: Equivalent Tons ---------- */
+  new Chart(document.getElementById('chartEq'), {
+    type: 'bar',
+    data: {
+      labels: months,
+      datasets: [{
+        label: 'Equivalent Tons (MT)',
+        data: [1730, 1694, 1334, 855],
+        backgroundColor: '#16a34a'
+      }]
+    },
+    options: {
+      plugins: { title:{ display:true, text:'Equivalent Tons Forecast' } },
+      responsive:true,
+      maintainAspectRatio:false
+    }
+  });
+
+  /* ---------- CHART 3: Total Production Quantity ---------- */
+  new Chart(document.getElementById('chartQty'), {
+    type: 'line',
+    data: {
+      labels: months,
+      datasets: [{
+        label: 'Total Production Qty (Index)',
+        data: [450, 390, 410, 320], // demo aggregated qty
+        borderColor: '#7c3aed',
+        backgroundColor: 'rgba(124,58,237,0.15)',
+        tension: 0.3
+      }]
+    },
+    options: {
+      plugins: { title:{ display:true, text:'Production Quantity Trend' } },
+      responsive:true,
+      maintainAspectRatio:false
+    }
+  });
+
+  /* ---------- CHART 4: Capacity vs Forecast ---------- */
+  new Chart(document.getElementById('chartCapacity'), {
+    type: 'bar',
+    data: {
+      labels: months,
+      datasets: [
+        {
+          label: 'Available Capacity',
+          data: [1000, 1000, 1000, 1000],
+          backgroundColor: '#9ca3af'
+        },
+        {
+          label: 'Planned Production',
+          data: [900, 850, 700, 500],
+          backgroundColor: '#059669'
+        }
+      ]
+    },
+    options: {
+      plugins: { title:{ display:true, text:'Capacity vs Planned Production' } },
+      responsive:true,
+      maintainAspectRatio:false
+    }
+  });
+
+});
+</script>
+
+<script>
+function downloadSummary(){
+  const table = document.getElementById('summaryTable');
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.table_to_sheet(table);
+
+  XLSX.utils.book_append_sheet(wb, ws, 'Summary');
+
+  XLSX.writeFile(wb, 'Forecast_Summary.xlsx');
+}
+</script>
+
+<script>
+function toggleSummary(){
+
+  // Ensure only report page is visible
+  ['dashboard','uploader','planning','jobcard'].forEach(id =>
+    document.getElementById(id).classList.add('hidden')
+  );
+  document.getElementById('report').classList.remove('hidden');
+
+  // Sidebar states
+  document.querySelectorAll('.nav-item').forEach(i =>
+    i.classList.remove('active')
+  );
+  document.getElementById('forecastNav').classList.add('active');
+
+  document.querySelectorAll('.sub-item').forEach(i =>
+    i.classList.remove('active')
+  );
+  document.querySelector('.sub-item[onclick*="report"]').classList.add('active');
+
+  // Title
+  document.getElementById('pageTitle').textContent = 'Forecast Reports';
+
+  // Toggle summary
+  document.getElementById('summaryContent').classList.toggle('hidden');
+}
+</script>
+
+<script>
+function openPlanning(){
+
+  // Hide all pages
+  ['dashboard','uploader','report','jobcard','planning'].forEach(id =>
+    document.getElementById(id).classList.add('hidden')
+  );
+
+  // Show planning
+  document.getElementById('planning').classList.remove('hidden');
+
+  // Sidebar states
+  document.querySelectorAll('.nav-item').forEach(i =>
+    i.classList.remove('active')
+  );
+  document.querySelectorAll('.sub-item').forEach(i =>
+    i.classList.remove('active')
+  );
+
+  document.getElementById('planningNav').classList.add('active');
+
+  // Title
+  document.getElementById('pageTitle').textContent = 'Production Planning';
+}
+</script>
+
+<script>
+function openJobCard(){
+
+  // Hide all pages
+  ['dashboard','uploader','report','planning','jobcard'].forEach(id =>
+    document.getElementById(id).classList.add('hidden')
+  );
+
+  // Show job card
+  document.getElementById('jobcard').classList.remove('hidden');
+
+  // Sidebar states
+  document.querySelectorAll('.nav-item').forEach(i =>
+    i.classList.remove('active')
+  );
+  document.querySelectorAll('.sub-item').forEach(i =>
+    i.classList.remove('active')
+  );
+
+  document.getElementById('jobCardNav').classList.add('active');
+
+  // Title
+  document.getElementById('pageTitle').textContent = 'Digital Job Card';
+}
+</script>
+
+<script>
+function openForecast(){
+
+  // Hide all pages
+  ['dashboard','uploader','report','planning','jobcard'].forEach(id =>
+    document.getElementById(id).classList.add('hidden')
+  );
+
+  // Show Forecast Analytics by default
+  document.getElementById('dashboard').classList.remove('hidden');
+
+  // Sidebar main state
+  document.querySelectorAll('.nav-item').forEach(i =>
+    i.classList.remove('active')
+  );
+  document.getElementById('forecastNav').classList.add('active');
+
+  // Sub-nav state
+  document.querySelectorAll('.sub-item').forEach(i =>
+    i.classList.remove('active')
+  );
+  document.querySelector('.sub-item[onclick*="dashboard"]').classList.add('active');
+
+  // Title
+  document.getElementById('pageTitle').textContent = 'Forecast Dashboard';
+}
+</script>
+
+</body>
+</html>
