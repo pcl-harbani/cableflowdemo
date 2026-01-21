@@ -160,7 +160,7 @@
       <!-- Forecast -->
       <div class="nav-item active" id="forecastNav" onclick="openForecast()">📈 Forecast Utility</div>
       <div class="sub-nav">
-        <div class="sub-item active" onclick="showPage('dashboard', this)">Forecast Analytics</div>
+        <div class="sub-item active" onclick="showPage('analytics', this)">Forecast Analytics</div>
         <div class="sub-item" onclick="showPage('uploader', this)">Uploader</div>
 		<div class="sub-item" onclick="showPage('report', this)">Reports</div>
       </div>
@@ -184,7 +184,7 @@
 
     <main>
       <!-- DASHBOARD -->
-      <div id="dashboard" class="card">
+      <div id="analytics" class="card">
 		  <h2>Forecast Analytics</h2>
 		  <p>Production & Material Forecast Overview (Demo)</p>
 
@@ -329,7 +329,7 @@
 function showPage(page, el){
 
   // Hide ALL main sections
-  ['dashboard','uploader','report','planning','jobcard'].forEach(id =>
+  ['analytics','uploader','report','planning','jobcard'].forEach(id =>
     document.getElementById(id).classList.add('hidden')
   );
 
@@ -350,7 +350,7 @@ function showPage(page, el){
 
   // Title
   const titles = {
-    dashboard: 'Forecast Analytics',
+    analytics: 'Forecast Analytics',
     uploader: 'Forecast Uploader',
     report: 'Forecast Reports'
   };
@@ -555,7 +555,7 @@ function downloadSummary(){
 function toggleSummary(){
 
   // Ensure only report page is visible
-  ['dashboard','uploader','planning','jobcard'].forEach(id =>
+  ['analytics','uploader','planning','jobcard'].forEach(id =>
     document.getElementById(id).classList.add('hidden')
   );
   document.getElementById('report').classList.remove('hidden');
@@ -583,7 +583,7 @@ function toggleSummary(){
 function openPlanning(){
 
   // Hide all pages
-  ['dashboard','uploader','report','jobcard','planning'].forEach(id =>
+  ['analytics','uploader','report','jobcard','planning'].forEach(id =>
     document.getElementById(id).classList.add('hidden')
   );
 
@@ -609,7 +609,7 @@ function openPlanning(){
 function openJobCard(){
 
   // Hide all pages
-  ['dashboard','uploader','report','planning','jobcard'].forEach(id =>
+  ['analytics','uploader','report','planning','jobcard'].forEach(id =>
     document.getElementById(id).classList.add('hidden')
   );
 
@@ -635,12 +635,12 @@ function openJobCard(){
 function openForecast(){
 
   // Hide all pages
-  ['dashboard','uploader','report','planning','jobcard'].forEach(id =>
+  ['analytics','uploader','report','planning','jobcard'].forEach(id =>
     document.getElementById(id).classList.add('hidden')
   );
 
   // Show Forecast Analytics by default
-  document.getElementById('dashboard').classList.remove('hidden');
+  document.getElementById('analytics').classList.remove('hidden');
 
   // Sidebar main state
   document.querySelectorAll('.nav-item').forEach(i =>
@@ -652,14 +652,15 @@ function openForecast(){
   document.querySelectorAll('.sub-item').forEach(i =>
     i.classList.remove('active')
   );
-  document.querySelector('.sub-item[onclick*="dashboard"]').classList.add('active');
+  document.querySelector('.sub-item[onclick*="analytics"]').classList.add('active');
 
   // Title
-  document.getElementById('pageTitle').textContent = 'Forecast Dashboard';
+  document.getElementById('pageTitle').textContent = 'Forecast Analytics';
 }
 </script>
 
 </body>
 </html>
+
 
 
