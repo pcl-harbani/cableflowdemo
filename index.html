@@ -186,7 +186,7 @@
       <!-- DASHBOARD -->
       <div id="analytics" class="card">
 		  <h2>Forecast Analytics</h2>
-		  <p>Production & Material Forecast Overview (Demo)</p>
+		  <p>Material Forecast Overview</p>
 
 		  <div style="
 			display:grid;
@@ -510,32 +510,6 @@ document.addEventListener('DOMContentLoaded', () => {
       maintainAspectRatio:false
     }
   });
-
-  /* ---------- CHART 4: Capacity vs Forecast ---------- */
-  new Chart(document.getElementById('chartCapacity'), {
-    type: 'bar',
-    data: {
-      labels: months,
-      datasets: [
-        {
-          label: 'Available Capacity',
-          data: [1000, 1000, 1000, 1000],
-          backgroundColor: '#9ca3af'
-        },
-        {
-          label: 'Planned Production',
-          data: [900, 850, 700, 500],
-          backgroundColor: '#059669'
-        }
-      ]
-    },
-    options: {
-      plugins: { title:{ display:true, text:'Capacity vs Planned Production' } },
-      responsive:true,
-      maintainAspectRatio:false
-    }
-  });
-
 });
 </script>
 
@@ -661,6 +635,7 @@ function openForecast(){
 
 </body>
 </html>
+
 
 
 
